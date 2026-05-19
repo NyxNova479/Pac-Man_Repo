@@ -40,7 +40,7 @@ public class LogicGrid : MonoBehaviour
 
     }
 
-    public LogicCell GetCell(Vector2Int cell)
+    public LogicCell GetCell(Vector3Int cell)
     {
         int x = cell.x - origin.x;
         int y = cell.y - origin.y;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Diagnostics;
+using PacMan.Input;
 
 namespace FixedEngine
 {
@@ -36,6 +37,7 @@ namespace FixedEngine
                 if (now < nextTickDeadLine) return;
 
                 manager.StepTick();
+                nextTickDeadLine += manager.tickInterval;
             }
 
 
@@ -62,6 +64,7 @@ namespace FixedEngine
                 return;
             }
             Instance = this;
+            RecomputeTickInterval();
             accumulator = 0.0;
             FixedTickContext.Reset();
             runner.Reset(tickInterval);
@@ -99,6 +102,7 @@ namespace FixedEngine
         public void StepTick()
         {
             accumulator = 0.0;
+            PacManTickInput.CaptureCurrentTick();
             FixedTickContext.AdvanceTick();
 
             for(int i = 0, n = listeners.Count; i < n; i++)

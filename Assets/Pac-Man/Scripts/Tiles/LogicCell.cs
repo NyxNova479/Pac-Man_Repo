@@ -6,7 +6,7 @@ public class LogicCell
     public TileType tileType;
     public string id;
 
-    public bool isWalkabale =>
+    public bool isWalkable =>
         tileType == TileType.Path
         || tileType == TileType.Warp
         || tileType == TileType.Intersection;
