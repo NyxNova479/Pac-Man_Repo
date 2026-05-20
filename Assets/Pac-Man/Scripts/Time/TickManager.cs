@@ -5,55 +5,54 @@ using PacMan.Input;
 
 namespace FixedEngine
 {
-
     [DefaultExecutionOrder(-1000)]
     public class TickManager : MonoBehaviour
     {
-        // TickMachineRunner est une classe abriquée (dans TickManager)
+        // sealed == ne peux pas etre herité
+        //tickmachinerunner est une claase imbriquée dans tickmanager
+
         private sealed class TickMachineRunner
         {
-            // StopWatch est une horloge du sytème d'exploitation indépendante de Unity.
-            // C'est une horloge de haute précision bien plus précise que Time.time.
+            //stopwatch est une horloge du système d'exploitation, indépendante d'unity.
+            // c'est une horloge haute précision, bien plus précise que Time.time         
             private readonly Stopwatch hostClock = new();
 
-            // nextTickDeadLine est le moment où le prochain Tick doit être déclencher.
-            // A chaque Pump(), si l'heure actuelle n'a pas encore atteint cette deadline, alors on ne fait rien.
-            // Dès qu'elle est atteinte, on déclenche un Tick et on avance la deadline d'un interval.
-            private double nextTickDeadLine;
-
+            //nexttickdeadline est le moment auquel le prochain tick doit etre déclencher
+            //A chaque Pump(), si l'heure actuelle n'a pas encore atteint cette deadline
+            // on ne fait rien. Dès qu'elle est atteinte, on déclenche un tick et on avance la deadline d'un interval.
+            private double nextTickDeadline;
             private bool isInitialized;
-            
+
             public void Reset(double tickInterval)
             {
                 hostClock.Restart();
-                nextTickDeadLine = tickInterval;
+                nextTickDeadline = tickInterval;
                 isInitialized = true;
             }
 
             public void Pump(TickManager manager)
             {
                 if (!isInitialized) Reset(manager.tickInterval);
+
                 double now = hostClock.Elapsed.TotalSeconds;
-                if (now < nextTickDeadLine) return;
+                if (now < nextTickDeadline) return;
 
                 manager.StepTick();
-                nextTickDeadLine += manager.tickInterval;
+                nextTickDeadline += manager.tickInterval;
             }
-
 
 
         }
 
         public static TickManager Instance { get; private set; }
 
-        public int ticksPerSeconds = 60;
+        public int ticksPerSecond = 60;
 
         public double tickInterval;
         public double accumulator;
 
-        // L'avantage d'utiliser une liste pour le déclenchement des FixedTick() dans les autres objets, c'est qu'on a un ordre clair entre eux.
+        // l'avantage d utiliser une liste pour le déclenchement des FixedTick() dans les autres objets, c'est qu'on a un ordre clair entre eux. sinon on sait pas lequel frame le premier
         private readonly List<IFixedTick> listeners = new();
-
         private readonly TickMachineRunner runner = new();
 
         private void Awake()
@@ -63,11 +62,13 @@ namespace FixedEngine
                 Destroy(gameObject);
                 return;
             }
+
             Instance = this;
             RecomputeTickInterval();
-            accumulator = 0.0;
+            accumulator = 0;
             FixedTickContext.Reset();
             runner.Reset(tickInterval);
+
         }
 
         private void OnEnable()
@@ -76,6 +77,7 @@ namespace FixedEngine
             UnityEditor.EditorApplication.pauseStateChanged += OnEditorPauseState;
 #endif
         }
+
         private void OnDisable()
         {
 #if UNITY_EDITOR
@@ -85,36 +87,36 @@ namespace FixedEngine
 
         private void OnDestroy()
         {
-            if (Instance == this) Instance = null;
+            if (Instance == this)
+                Instance = null;
         }
 
         private void RecomputeTickInterval()
         {
-            ticksPerSeconds = Mathf.Max(1, ticksPerSeconds);
-            tickInterval = 1.0 / ticksPerSeconds;
+            ticksPerSecond = Mathf.Max(1, ticksPerSecond);
+            tickInterval = 1.0 / ticksPerSecond;
         }
-
         private void Update()
         {
             runner.Pump(this);
         }
-
         public void StepTick()
         {
             accumulator = 0.0;
             PacManTickInput.CaptureCurrentTick();
             FixedTickContext.AdvanceTick();
 
-            for(int i = 0, n = listeners.Count; i < n; i++)
+            for (int i = 0, n = listeners.Count; i < n; i++)
             {
                 listeners[i].FixedTick();
             }
         }
 
+
+
         public void Register(IFixedTick tick)
         {
             if (tick == null || listeners.Contains(tick)) return;
-
             listeners.Add(tick);
         }
 
@@ -125,28 +127,25 @@ namespace FixedEngine
         }
 
 #if UNITY_EDITOR
-
         private void OnEditorPauseState(UnityEditor.PauseState pauseState)
         {
-            if(!Application.isPlaying) return;
+            if (!Application.isPlaying) return;
 
-            if(pauseState == UnityEditor.PauseState.Unpaused)
+            if (pauseState == UnityEditor.PauseState.Unpaused)
             {
                 accumulator = 0.0;
                 runner.Reset(tickInterval);
             }
         }
+
+
 #endif
-
-
     }
 
-    // IFixedTick est le contrat que tout système doit implémenter pour participer à la boucle logique.
-    // Une Interface est un contrat qui force tous ceux qui en héritent à implémenter ses fonctions. Dans notre cas, FixedTick() doit donc être implémenter à tous les enfants.
-    // Ce pattern est appelé pattern Observer.
+    // IFixedTick EST LE CONTRAT que tout système doit impl"menter pour participer à la boucle logique
+    // force les héritant à impléménter ses fonctions comme FixedTick()
     public interface IFixedTick
     {
         void FixedTick();
     }
-
 }

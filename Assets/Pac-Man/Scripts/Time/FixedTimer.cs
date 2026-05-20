@@ -1,44 +1,43 @@
-using UnityEngine;
 using System;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager.Requests;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace FixedEngine
 {
     public struct FixedTimer<TFormat> where TFormat : struct, IFixedPointFormat
     {
         public string Label;
-
-        // Q8.4 ou. Q8.8 c'est le TFormat qui découle du IFixedPointFormat
         private FixedPoint<TFormat> m_duration;
         private FixedPoint<TFormat> m_elapsed;
         private FixedPoint<TFormat> m_lastElapsed;
 
-
         public bool Loop;
-        private int m_repeatCount;
         public int RepeatCount;
+        private int m_repeatCount;
 
         public bool IsPaused { get; private set; }
         private bool m_wasFinishedLastFrame;
 
         public Action OnFinish;
 
+        public bool isInitialized => m_duration.Raw > 0;
 
-        // --- CALCUL DES PROPRIETES ---
+        public bool isFinished => !Loop && RepeatCount <= 0 && m_elapsed >= m_duration;
 
-        public bool IsInitialized => m_duration.Raw > 0;
-        public bool IsFinished => !Loop && RepeatCount <= 0 && m_elapsed >= m_duration;
-        public bool IsFinishedNow => m_elapsed >= m_duration;
-        public bool DoneThisFrame => !IsPaused && !m_wasFinishedLastFrame && IsFinishedNow;
-        public bool IsRunning => !IsPaused && !IsFinished;
-        public bool HasJustLooped => Loop && DoneThisFrame && (RepeatCount == 0 || m_repeatCount == 0);
+        public bool isFinishedNow => m_elapsed >= m_duration;
+        public bool DoneThisFrame => !isFinished && !m_wasFinishedLastFrame;
+
+        public bool isRunning => !isFinished && !IsPaused;
+
+        public bool HasJusteLooped => Loop && DoneThisFrame && (RepeatCount == 0 || m_repeatCount > 0);
 
         public FixedPoint<TFormat> Remaining => m_duration - m_elapsed;
+
         public FixedPoint<TFormat> Elapsed => m_elapsed;
+
         public float Progress01 => Math.Clamp(m_elapsed.ToFloat() / m_duration.ToFloat(), 0.0f, 1.0f);
-
-
-        // --- CONSTRUCTEUR ---
 
         public FixedTimer(float durationSeconds, bool loop = false, int repeatCount = 0, string label = "")
         {
@@ -47,28 +46,24 @@ namespace FixedEngine
             m_elapsed = FixedPoint<TFormat>.FromFloat(0f);
             m_lastElapsed = m_elapsed;
             Loop = loop;
-            m_repeatCount = repeatCount;
             RepeatCount = repeatCount;
+            this.m_repeatCount = repeatCount;
             OnFinish = null;
             IsPaused = false;
             m_wasFinishedLastFrame = false;
 
-            if(m_duration.Raw <= 0)
+            if (m_duration.Raw <= 0)
             {
-                Debug.Log($"[FixedTimer<{typeof(TFormat).Name}>] [{label}] Timer créé avec une durée nulle ou négative");
+                Debug.LogWarning($"[FixedTimer] Initialized with non-positive duration: {durationSeconds} seconds. Timer will be considered finished.");
             }
-        }
 
-        
-        // --- COMMANDES ---
+        }
 
         public void Restart(float newDurationSeconds)
         {
             m_duration = FixedPoint<TFormat>.FromFloat(newDurationSeconds);
             Reset();
         }
-
-        public void Restart() => Reset();
 
         public void Reset()
         {
@@ -102,48 +97,44 @@ namespace FixedEngine
 
         public void Update(FixedPoint<TFormat> deltaTime)
         {
-            if (!IsInitialized) return;
+            if (!isInitialized) return;
 
             if (IsPaused) return;
 
             m_lastElapsed = m_elapsed;
             m_elapsed += deltaTime;
 
-            if(IsFinishedNow && !m_wasFinishedLastFrame)
+            m_wasFinishedLastFrame = isFinished;
+
+            if (isFinishedNow && !m_wasFinishedLastFrame)
             {
                 OnFinish?.Invoke();
 
-                if(Loop || RepeatCount > 0)
+                if (Loop || RepeatCount > 0)
                 {
-                    m_elapsed = FixedPoint<TFormat>.FromFloat(0f);
-
-                    if(RepeatCount > 0)
+                    m_elapsed = FixedPoint<TFormat>.FromFloat(0.0f);
+                    if (RepeatCount > 0)
                     {
-                        m_repeatCount--;
+                        RepeatCount--;
                     }
-
                     m_wasFinishedLastFrame = !(RepeatCount == 0 || m_repeatCount > 0);
                 }
                 else
                 {
                     m_wasFinishedLastFrame = true;
                 }
+
             }
-            else if (!IsFinishedNow)
+            else if (!isFinishedNow)
             {
                 m_wasFinishedLastFrame = false;
             }
-
-
         }
 
-        public bool Triggered(float secondsThreshold)
+        public bool Triggered(float secondsThresholds)
         {
-            var threshold = FixedPoint<TFormat>.FromFloat(secondsThreshold);
-
+            var threshold = FixedPoint<TFormat>.FromFloat(secondsThresholds);
             return !IsPaused && m_elapsed >= threshold && m_lastElapsed < threshold;
         }
     }
 }
-
-

@@ -6,7 +6,6 @@ namespace PacMan.Input
 {
     using Fixed = Q8_8;
 
-
     public enum PacManCommand
     {
         None,
@@ -15,7 +14,6 @@ namespace PacMan.Input
         Down,
         Right
     }
-
     public static class PacManTickInput
     {
         private const string PlayerMapName = "Player";
@@ -24,20 +22,20 @@ namespace PacMan.Input
         private static InputAction moveAction;
         private static InputActionAsset configuredAsset;
 
-        // On a ici un private setter. Donc seule cette classe peut définir la valeure de Currentcommand.
-        // PacManController comme tout système extérieur n'est autorisé qu'à la lire.
-        public static PacManCommand CurrentCommand { get; private set; } = PacManCommand.None;
+        // on a un private setter donc seul cette classe peut définir la valeur de currentCommand. PacManController comme tout système extérieur n'est autorisé qu'a la lire
+        public static PacManCommand CurrentCommand { get; private set; }
+            = PacManCommand.None;
 
         public static void Configure(InputActionAsset inputAsset)
         {
             if (inputAsset == null) return;
 
-            if (configuredAsset == inputAsset && moveAction != null) return;
-
+            if (configuredAsset == inputAsset && moveAction != null)
+                return;
             Release(configuredAsset);
 
             var map = inputAsset.FindActionMap(PlayerMapName, true);
-            moveAction = map.FindAction(MoveActionName, true);
+            moveAction = map.FindAction(MoveActionName);
             moveAction.Enable();
 
             configuredAsset = inputAsset;
@@ -46,7 +44,7 @@ namespace PacMan.Input
 
         public static void Release(InputActionAsset inputAsset)
         {
-            if(moveAction == null) return;
+            if (moveAction == null) return;
 
             if (inputAsset != null && configuredAsset != inputAsset) return;
 
@@ -60,12 +58,14 @@ namespace PacMan.Input
         {
             switch (command)
             {
+                // Si command = Up on fait up ...
                 case PacManCommand.Up: return FixedVector2<Fixed>.Up;
                 case PacManCommand.Left: return FixedVector2<Fixed>.Left;
                 case PacManCommand.Down: return FixedVector2<Fixed>.Down;
                 case PacManCommand.Right: return FixedVector2<Fixed>.Right;
                 default: return FixedVector2<Fixed>.Zero;
             }
+
         }
 
         private static Vector2 ReadMoveInput()
@@ -77,18 +77,20 @@ namespace PacMan.Input
         {
             var inputDir = FixedInputQuantizer.QuantizeVector2<Fixed>(rawInput);
 
-            if (inputDir.x.Raw != 0 && inputDir.y.Raw == 0) return inputDir.x > 0 ? PacManCommand.Right : PacManCommand.Left;
+            if (inputDir.x.Raw != 0 && inputDir.y.Raw == 0)
+                return inputDir.x > 0 ? PacManCommand.Right : PacManCommand.Left;
 
-            if (inputDir.y.Raw != 0 && inputDir.x.Raw == 0) return inputDir.y > 0 ? PacManCommand.Up : PacManCommand.Down;
+            if (inputDir.y.Raw != 0 && inputDir.x.Raw == 0)
+                return inputDir.y > 0 ? PacManCommand.Up : PacManCommand.Down;
 
-            return PacManCommand.None;  
+            return PacManCommand.None;
         }
 
         internal static void CaptureCurrentTick()
         {
             CurrentCommand = ResolveCommand(ReadMoveInput());
         }
-
+        // la methode qui suit vas s'executer avant tout le reste
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetState()
         {
@@ -96,8 +98,5 @@ namespace PacMan.Input
             configuredAsset = null;
             CurrentCommand = PacManCommand.None;
         }
-
     }
-
-
 }
