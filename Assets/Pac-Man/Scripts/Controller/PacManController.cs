@@ -19,7 +19,7 @@ public class PacManController : MonoBehaviour, IFixedTick
     private FixedMover2D<Fixed> m_mover;
 
     private FixedVector2<Fixed> m_desiredDir = FixedVector2<Fixed>.Zero;
-    private FixedVector2<Fixed> m_currentDir = FixedVector2<Fixed>.Zero;
+    public FixedVector2<Fixed> m_currentDir = FixedVector2<Fixed>.Zero;
     private bool b_isPreTurning = false;
 
     private FixedPoint<Fixed> m_turnTargetX;
@@ -60,7 +60,7 @@ public class PacManController : MonoBehaviour, IFixedTick
     }
     public void FixedTick()
     {
-        //throw new System.NotImplementedException();
+
 
         // BLOC 1 maj input
         var inputDir = PacManTickInput.ToFixedDirection(PacManTickInput.CurrentCommand);
@@ -120,7 +120,7 @@ public class PacManController : MonoBehaviour, IFixedTick
             b_isPreTurning = true;
         }
     SkipPreTurn:
-        //BLOCK 6 EXECUTION DU PRE TURN
+        // --- BLOC N°06 : EXECUTION DU PRE TURN ---
 
         if (b_isPreTurning)
         {
