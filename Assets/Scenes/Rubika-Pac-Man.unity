@@ -8967,6 +8967,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1563911067}
     - target: {fileID: 1512040826395339147, guid: 3795ced842635164ca23c6ab9001c3a3, type: 3}
+      propertyPath: speedRaw
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 1512040826395339147, guid: 3795ced842635164ca23c6ab9001c3a3, type: 3}
       propertyPath: collisionMap
       value: 
       objectReference: {fileID: 486645717}
@@ -8976,11 +8980,11 @@ PrefabInstance:
       objectReference: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
     - target: {fileID: 2538658127728314603, guid: 3795ced842635164ca23c6ab9001c3a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538658127728314603, guid: 3795ced842635164ca23c6ab9001c3a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -60
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 2538658127728314603, guid: 3795ced842635164ca23c6ab9001c3a3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9043,6 +9047,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1563911067}
     - target: {fileID: 3614531030483207323, guid: bdbab52e5f991c54fafc11e3e5781c7d, type: 3}
+      propertyPath: pacMan
+      value: 
+      objectReference: {fileID: 2683493892022279737}
+    - target: {fileID: 3614531030483207323, guid: bdbab52e5f991c54fafc11e3e5781c7d, type: 3}
       propertyPath: collisionMap
       value: 
       objectReference: {fileID: 486645717}
@@ -9093,6 +9101,10 @@ PrefabInstance:
     - target: {fileID: 8161861062598016176, guid: bdbab52e5f991c54fafc11e3e5781c7d, type: 3}
       propertyPath: m_Name
       value: Blinky
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161861062598016176, guid: bdbab52e5f991c54fafc11e3e5781c7d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9159,17 +9171,13 @@ PrefabInstance:
       propertyPath: collisionMap
       value: 
       objectReference: {fileID: 486645717}
-    - target: {fileID: 0}
-      propertyPath: grid
-      value: 
-      objectReference: {fileID: 1563911067}
-    - target: {fileID: 0}
-      propertyPath: collisionMap
-      value: 
-      objectReference: {fileID: 486645717}
     - target: {fileID: 6478179999222246053, guid: 917038196732cd24ea843e6b468274e9, type: 3}
       propertyPath: m_Name
       value: Inky
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478179999222246053, guid: 917038196732cd24ea843e6b468274e9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9198,7 +9206,7 @@ PrefabInstance:
       objectReference: {fileID: 486645717}
     - target: {fileID: 159607655077145448, guid: 82291153ca0544c45959730256ce7739, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 159607655077145448, guid: 82291153ca0544c45959730256ce7739, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9236,17 +9244,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: grid
-      value: 
-      objectReference: {fileID: 1563911067}
-    - target: {fileID: 0}
-      propertyPath: collisionMap
-      value: 
-      objectReference: {fileID: 486645717}
     - target: {fileID: 3675298231471804680, guid: 82291153ca0544c45959730256ce7739, type: 3}
       propertyPath: m_Name
       value: Pinky
+      objectReference: {fileID: 0}
+    - target: {fileID: 3675298231471804680, guid: 82291153ca0544c45959730256ce7739, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764751712909372328, guid: 82291153ca0544c45959730256ce7739, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9261,29 +9269,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
-      propertyPath: grid
-      value: 
-      objectReference: {fileID: 1563911067}
-    - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
-      propertyPath: pacMan
-      value: 
-      objectReference: {fileID: 2683493892022279737}
-    - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
-      propertyPath: collisionMap
-      value: 
-      objectReference: {fileID: 486645717}
-    - target: {fileID: 0}
-      propertyPath: grid
-      value: 
-      objectReference: {fileID: 1563911067}
-    - target: {fileID: 0}
-      propertyPath: collisionMap
-      value: 
-      objectReference: {fileID: 486645717}
     - target: {fileID: 2719655561839529811, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
       propertyPath: m_Name
       value: Clyde
+      objectReference: {fileID: 0}
+    - target: {fileID: 2719655561839529811, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3212564905843075219, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9291,7 +9283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3212564905843075219, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 84
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 3212564905843075219, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9325,6 +9317,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 1563911067}
+    - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
+      propertyPath: pacMan
+      value: 
+      objectReference: {fileID: 2683493892022279737}
+    - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
+      propertyPath: collisionMap
+      value: 
+      objectReference: {fileID: 486645717}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

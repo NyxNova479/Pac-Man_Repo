@@ -35,5 +35,15 @@ public class PinkyController : GhostController
         return new Vector3Int(targetX, targetY, 0);
     }
 
+#if UNITY_EDITOR
+
+    void OnDrawGizmos()
+    {
+        Vector3 worldCenter = collisionMap.GetCellCenterWorld(m_targetCell);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireCube(worldCenter, collisionMap.cellSize);
+    }
+
+#endif
 
 }

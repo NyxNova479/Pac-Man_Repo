@@ -12,19 +12,21 @@ public class ClydeController : GhostController
         Vector3Int targetCell;
 
         var dir = pacMan.m_currentDir;
-        int tileDevant = 8;
-        Vector3Int perimeterX = pacCell + new Vector3Int(pacCell.x + tileDevant,0, 0);
-        Vector3Int perimeterY = pacCell + new Vector3Int(0, pacCell.y + tileDevant, 0);
 
-        if(currentCell.x-perimeterX.x > 0)
+
+        Debug.Log(pacCell.sqrMagnitude - currentCell.sqrMagnitude);
+        if (Mathf.Abs(pacCell.sqrMagnitude - collisionMap.WorldToCell(transform.position).sqrMagnitude) >16)
         {
-            targetCell = collisionMap.WorldToCell(pacMan.transform.position);
+            targetCell = pacCell;
+        }
+        else
+        {
+            targetCell = collisionMap.origin; //pacCell + new Vector3Int(tileDevant * dx, tileDevant * dy, 0);
         }
 
         int dx = dir.x.Raw > 0 ? 1 : dir.x.Raw < 0 ? -1 : 0;
         int dy = dir.y.Raw > 0 ? 1 : dir.y.Raw < 0 ? -1 : 0;
 
-        targetCell = pacCell + new Vector3Int(tileDevant * dx, tileDevant * dy, 0);
 
         var bounds = collisionMap.cellBounds;
         int largeur = bounds.size.x;
@@ -43,5 +45,19 @@ public class ClydeController : GhostController
         return new Vector3Int(targetX, targetY, 0);
     }
 
+#if UNITY_EDITOR
+
+    void OnDrawGizmos()
+    {
+        Vector3 worldCenter = collisionMap.GetCellCenterWorld(m_targetCell);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(worldCenter, collisionMap.cellSize);
+        Vector3Int pacCell = collisionMap.WorldToCell(pacMan.transform.position);
+        Gizmos.DrawWireSphere(pacMan.transform.position, tileSize);
+    }
+
+    
+
+#endif
 
 }
