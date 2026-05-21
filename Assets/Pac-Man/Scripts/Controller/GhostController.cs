@@ -10,7 +10,7 @@ public abstract class GhostController : MonoBehaviour,IFixedTick
     [SerializeField] protected int speedRaw = 256;
     [SerializeField] protected int tileSize = 8;
     [SerializeField] protected LogicGrid grid;
-    [SerializeField] protected PacManController pacManController;
+    [SerializeField] protected PacManController pacMan;
 
     protected FixedPoint<Fixed> m_speed;
     protected FixedTransform2D<Fixed> m_transform;
@@ -59,9 +59,9 @@ public abstract class GhostController : MonoBehaviour,IFixedTick
         FixedVector2<Fixed> center = GetFixedCenter(cell);
 
         // BLOC N°02 Demarage
-        if (m_currentDir == FixedVector2<Fixed>.Zero && pacManController.m_currentDir != FixedVector2<Fixed>.Zero && CanMove(cell, pacManController.m_currentDir))
+        if (m_currentDir == FixedVector2<Fixed>.Zero && pacMan.m_currentDir != FixedVector2<Fixed>.Zero && CanMove(cell, pacMan.m_currentDir))
         {
-            m_currentDir = pacManController.m_currentDir;
+            m_currentDir = pacMan.m_currentDir;
         }
 
 
