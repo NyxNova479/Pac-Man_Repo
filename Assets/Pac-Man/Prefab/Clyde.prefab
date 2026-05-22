@@ -137,3 +137,4 @@ MonoBehaviour:
   tileSize: 8
   grid: {fileID: 0}
   pacMan: {fileID: 0}
+  tileAutour: 8
