@@ -43,7 +43,6 @@ public class PinkyController : GhostController
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireCube(worldCenter, collisionMap.cellSize);
 
-
     }
 
 #endif

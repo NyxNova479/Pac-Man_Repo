@@ -28,7 +28,7 @@ public class ClydeController : GhostController
         else
         {
 
-            targetCell = collisionMap.origin; //pacCell + new Vector3Int(tileDevant * dx, tileDevant * dy, 0);
+            targetCell = collisionMap.origin;
         }
 
 
@@ -49,6 +49,7 @@ public class ClydeController : GhostController
 
         return new Vector3Int(targetX, targetY, 0);
     }
+
 
 #if UNITY_EDITOR
 
@@ -79,5 +80,7 @@ public class ClydeController : GhostController
     
 
 #endif
+
+
 
 }

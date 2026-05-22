@@ -28,7 +28,8 @@ public abstract class GhostController : MonoBehaviour, IFixedTick
 
     private void Awake()
     {
-        m_speed = new FixedPoint<Fixed>(speedRaw);
+        m_speed = new FixedPoint<Fixed>(speedRaw) * 0.75f;
+
         m_startSpeed = m_speed;
         m_transform = new FixedTransform2D<Fixed>();
         m_mover = new FixedMover2D<Fixed> { Transform = m_transform };
