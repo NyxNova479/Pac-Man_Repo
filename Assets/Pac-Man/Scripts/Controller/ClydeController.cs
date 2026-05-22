@@ -10,7 +10,7 @@ public class ClydeController : GhostController
     protected override Vector3Int CalculateTargetCell(Vector3Int currentCell)
     {
         Vector3Int pacCell = collisionMap.WorldToCell(pacMan.transform.position);
-
+        Vector3Int targetCell;
 
         int dx = pacCell.x - currentCell.x;
         int dy = pacCell.y - currentCell.y;
@@ -22,17 +22,17 @@ public class ClydeController : GhostController
 
         if (dist2 > threshold2)
         {
-            return pacCell;
-            //targetCell = pacCell;
+
+            targetCell = pacCell;
         }
         else
         {
-            return collisionMap.origin;
-           // targetCell = collisionMap.origin; //pacCell + new Vector3Int(tileDevant * dx, tileDevant * dy, 0);
+
+            targetCell = collisionMap.origin; //pacCell + new Vector3Int(tileDevant * dx, tileDevant * dy, 0);
         }
 
 
-        /*
+        
         var bounds = collisionMap.cellBounds;
         int largeur = bounds.size.x;
         int hauteur = bounds.size.y;
@@ -47,7 +47,7 @@ public class ClydeController : GhostController
         if (targetY < 0) targetY += hauteur;
         targetY += y0;
 
-        return new Vector3Int(targetX, targetY, 0);*/
+        return new Vector3Int(targetX, targetY, 0);
     }
 
 #if UNITY_EDITOR
@@ -58,25 +58,21 @@ public class ClydeController : GhostController
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(worldCenter, collisionMap.cellSize);
         Vector3Int pacCell = collisionMap.WorldToCell(pacMan.transform.position);
-        // 2. Dessin du périmètre de danger autour de Pac-Man
+
         if (pacMan != null)
         {
-            // On récupère le centre de la cellule où se trouve Pac-Man
+
             Vector3 pacCenter = collisionMap.GetCellCenterWorld(pacCell);
 
-            // On détermine le rayon en unités Unity.
-            // Si tes tuiles font 1 unité de large : radius = tileAutour
-            // Si ta tilemap utilise une autre taille, on prend la largeur de la cellule.
             float tileWidth = collisionMap.cellSize.x;
             float radius = tileAutour * tileWidth;
 
-            // Dessiner le cercle de danger (en rouge transparent par exemple)
-            Gizmos.color = new Color(1f, 0f, 0f, 0.3f); // Rouge avec 30% d'opacité
+
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(pacCenter, radius);
 
-            // Optionnel : Un deuxième cercle plein très discret pour mieux voir la zone
-            Gizmos.color = new Color(1f, 0f, 0f, 0.05f); // Rouge très transparent
-            Gizmos.DrawSphere(pacCenter, radius);
+
+
         }
     }
 

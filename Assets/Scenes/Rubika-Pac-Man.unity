@@ -8856,6 +8856,17 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!114 &1168100129 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3614531030483207323, guid: bdbab52e5f991c54fafc11e3e5781c7d, type: 3}
+  m_PrefabInstance: {fileID: 5281803444656500452}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c957337175681bb4186d4fb952d0b367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1563911066
 GameObject:
   m_ObjectHideFlags: 0
@@ -9100,7 +9111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8161861062598016176, guid: bdbab52e5f991c54fafc11e3e5781c7d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9160,6 +9171,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1563911067}
     - target: {fileID: 4728649143144518183, guid: 917038196732cd24ea843e6b468274e9, type: 3}
+      propertyPath: blinky
+      value: 
+      objectReference: {fileID: 1168100129}
+    - target: {fileID: 4728649143144518183, guid: 917038196732cd24ea843e6b468274e9, type: 3}
       propertyPath: pacMan
       value: 
       objectReference: {fileID: 2683493892022279737}
@@ -9173,7 +9188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6478179999222246053, guid: 917038196732cd24ea843e6b468274e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9246,7 +9261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3675298231471804680, guid: 82291153ca0544c45959730256ce7739, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6764751712909372328, guid: 82291153ca0544c45959730256ce7739, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9331,7 +9346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
       propertyPath: tileAutour
-      value: 16
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8881862504491594158, guid: 3bb9e9cf13a37af4f8a61644062c8b23, type: 3}
       propertyPath: collisionMap

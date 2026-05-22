@@ -15,6 +15,7 @@ public abstract class GhostController : MonoBehaviour, IFixedTick
     [SerializeField] protected PacManController pacMan;
 
     private FixedPoint<Fixed> m_speed;
+    private FixedPoint<Fixed> m_startSpeed;
     private FixedTransform2D<Fixed> m_transform;
     private FixedMover2D<Fixed> m_mover;
 
@@ -28,6 +29,7 @@ public abstract class GhostController : MonoBehaviour, IFixedTick
     private void Awake()
     {
         m_speed = new FixedPoint<Fixed>(speedRaw);
+        m_startSpeed = m_speed;
         m_transform = new FixedTransform2D<Fixed>();
         m_mover = new FixedMover2D<Fixed> { Transform = m_transform };
 
@@ -72,7 +74,12 @@ public abstract class GhostController : MonoBehaviour, IFixedTick
         foreach (var off in new[] { Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right })
         {
             var logic = grid.GetCell(cell + off);
-            if (logic.isGhostWalkable) walkableCount++;
+            if (logic != null && logic.isGhostWalkable) walkableCount++;
+            if (logic != null && logic.isGhostWalkable && (logic.isWarp || logic.isPortal)) m_speed = m_speed / 2;
+            else
+            {
+                m_speed = m_startSpeed;
+            }
         }
         bool atIntersection = walkableCount > 1;
 
@@ -107,6 +114,7 @@ public abstract class GhostController : MonoBehaviour, IFixedTick
                 // Eviter le Tunneling
                 SafeMove(m_currentDir);
             }
+
             else
             {
                 var deltaX = center.x - pos.x;
